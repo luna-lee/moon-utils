@@ -1,0 +1,36 @@
+{
+  "name": "moon-utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/luna-lee/moon-utils.git",
+  "scripts": {
+    "build": "pnpm unbuild && npm run copy-dts",
+    "publish": "npm publish",
+    "copy-dts": "cp src/*.d.ts dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10.13.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "vite": ">=2.0.0"
+  },
+  "dependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "@types/qs": "^6.9.15",
+    "@vue/compiler-sfc": "^3.2.29",
+    "async-validator": "^4.2.5",
+    "lodash-es": "^4.17.21",
+    "nanoid": "^5.0.7",
+    "qs": "^6.12.3"
+  }
+}
