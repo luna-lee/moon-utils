@@ -9,4 +9,4 @@ export {
   InstanceValidate,
 } from "./common";
 
-export { addUrParams, getUrlParams, qsStringify } from "./url";
+export { addUrlParams, getUrlParams, qsStringify } from "./url";

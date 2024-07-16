@@ -28,7 +28,7 @@ export const qsStringify = function (obj: Recordable, opt: Recordable = {}) {
  * @param {paramsObj}  具体的参数对象
  * @param {merge}  对原有的url参数进行覆盖合并，还是保留合并，true时为覆盖合并，以当前参数为主，false则为保留合并，以原来的url参数为主 。默认为覆盖合并。即有相同参数的以后传的参数值为准
  */
-export const addUrParams = function (
+export const addUrlParams = function (
   url: string,
   paramsObj: Recordable = {},
   merge = true

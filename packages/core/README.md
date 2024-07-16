@@ -138,7 +138,7 @@ let { treeData } = treeDataFactory({ source: data, id: "id", pId: "pId" });
 });
 ```
 
-### addUrParams
+### addUrlParams
 
 - @description 在 url 后面追加指定对象作为新的参数。
 - @author 闰月飞鸟
@@ -147,7 +147,7 @@ let { treeData } = treeDataFactory({ source: data, id: "id", pId: "pId" });
 - @param {merge} 对原有的 url 参数进行覆盖合并，还是保留合并，true 时为覆盖合并，以当前参数为主，false 则为保留合并，以原来的 url 参数为主 。默认为覆盖合并。即有相同参数的以后传的参数值为准
 
 ```javascript
-addUrParams("http:", { a: "b" });
+addUrlParams("http:", { a: "b" });
 ```
 
 ### getUrlParams
