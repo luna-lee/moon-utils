@@ -144,12 +144,8 @@ export const arrayRemoveItem = <T = any>(
   fun: (item: T, index: number) => boolean
 ): void => {
   if (isType(arr, "Array") && isType(fun, "Function")) {
-    let stay = arr.filter((v, i) => {
-      return !fun(v, i);
-    });
+    let stay = arr.filter((v, i) => !fun(v, i));
     arr.splice(0, arr.length);
-    stay.forEach((v) => {
-      arr.push(v);
-    });
+    arr.push(...stay);
   } else throw "arrayRemoveItem 参数类型不正确，arr必须是数组，fun必须是函数";
 };

@@ -143,7 +143,7 @@ let { treeData } = treeDataFactory({ source: data, id: "id", pId: "pId" });
 - @description 在 url 后面追加指定对象作为新的参数。
 - @author 闰月飞鸟
 - @param {url} 需要追加参数的 url
-- @param {paramsObj} 具体的参数对象
+- @param {params} 具体的参数对象
 - @param {merge} 对原有的 url 参数进行覆盖合并，还是保留合并，true 时为覆盖合并，以当前参数为主，false 则为保留合并，以原来的 url 参数为主 。默认为覆盖合并。即有相同参数的以后传的参数值为准
 
 ```javascript
