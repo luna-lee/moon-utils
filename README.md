@@ -106,9 +106,10 @@ treeToFlat({ source: data, id: "id", pId: "pId", children: "children" });
 - @param {\*} source
 - @param {\*} id
 - @param {\*} pId
-- @return {treeData,leafs,objById,flatData}
+- @param customizer 自定义节点信息，可以直接对节点对象添加自定义属性。
+- @return {treeData,leaves,objById,flatData}
 - @description treeData 格式化后的树数据
-- @description leafs 所有叶子节点
+- @description leaves 所有叶子节点
 - @description objById 以 id 为 key 的对象
 - @description flatData 扁平数组，
 - @return TreeFactoryItemType 类型

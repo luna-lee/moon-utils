@@ -39,9 +39,10 @@ export const treeToFlat = <T = any>({
  * @param {*} source
  * @param {*} id
  * @param {*} pId
- * @return {treeData,leafs,objById,flatData}
+ * @param customizer 自定义节点信息，可以直接对节点对象添加自定义属性。
+ * @return {treeData,leaves,objById,flatData}
  * @description  treeData 格式化后的树数据
- * @description  leafs 所有叶子节点
+ * @description  leaves 所有叶子节点
  * @description  objById 以id为key的对象
  * @description  flatData  扁平数组，
  * @return TreeFactoryItemType类型
@@ -53,15 +54,18 @@ export const treeToFlat = <T = any>({
  * @param {*} trigger 所有当前节点的子节点id，不包含自身ID
  */
 
-export const treeDataFactory = <T extends Recordable>({
-  source,
-  id = "id",
-  pId = "pId",
-}: {
-  source: T[];
-  id?: string;
-  pId?: string;
-}) => {
+export const treeDataFactory = <T extends Recordable>(
+  {
+    source,
+    id = "id",
+    pId = "pId",
+  }: {
+    source: T[];
+    id?: string;
+    pId?: string;
+  },
+  customizer?: (item: TreeFactoryItemType<T>) => void
+) => {
   if (!isType(source, "Array")) throw "treeToFlat  source必须是数组";
   let formatSource: TreeFactoryItemType<T>[] = source.map((item: T) => {
     return {
@@ -102,15 +106,20 @@ export const treeDataFactory = <T extends Recordable>({
       },
       []
     );
-    let leafs: TreeFactoryItemType<T>[] = [];
+    let leaves: TreeFactoryItemType<T>[] = [];
     // id 为key的对象。将trigger扁平化,获取所有子节点
     let objById = formatSource.reduce(
       (obj: { [key: string]: TreeFactoryItemType<T> }, item) => {
         item.trigger = flattenDeep(item.trigger);
         item.track = flattenDeep(item.track).reverse();
         item.level = item.track.length;
+        customizer && customizer(item);
         obj[item.id] = item;
-        if (!item.children.length) leafs.push(item);
+        // 叶子节点移除children
+        if (!item.children?.length) {
+          leaves.push(item);
+          delete item.children;
+        }
         return obj;
       },
       {}
@@ -118,7 +127,7 @@ export const treeDataFactory = <T extends Recordable>({
 
     return {
       treeData,
-      leafs,
+      leaves,
       objById,
       flatData: formatSource,
     };
@@ -126,7 +135,7 @@ export const treeDataFactory = <T extends Recordable>({
     console.error(error);
     return {
       treeData: [],
-      leafs: [],
+      leaves: [],
       objById: {},
       flatData: [],
     };
