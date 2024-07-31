@@ -1,6 +1,6 @@
 {
   "name": "moon-utils",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -21,13 +21,9 @@
     "dist",
     "README.md"
   ],
-  "peerDependencies": {
-    "vite": ">=2.0.0"
-  },
   "dependencies": {
     "@types/lodash-es": "^4.17.6",
     "@types/qs": "^6.9.15",
-    "@vue/compiler-sfc": "^3.2.29",
     "async-validator": "^4.2.5",
     "lodash-es": "^4.17.21",
     "nanoid": "^5.0.7",
