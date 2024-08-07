@@ -113,13 +113,14 @@ export const treeDataFactory = <T extends Recordable>(
         item.trigger = flattenDeep(item.trigger);
         item.track = flattenDeep(item.track).reverse();
         item.level = item.track.length;
-        customizer && customizer(item);
         obj[item.id] = item;
         // 叶子节点移除children
         if (!item.children?.length) {
           leaves.push(item);
           delete item.children;
         }
+        // 自定义函数
+        customizer && customizer(item);
         return obj;
       },
       {}
