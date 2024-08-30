@@ -1,5 +1,13 @@
 ### isType
 
+##### 类型：
+
+```
+(obj: any, type: string | string[]) => boolean
+```
+
+
+
 - 类型判断
 - @param obj 校验对象
 - @param type 校验类型，可以是字符串或数组，数组为或结果。值为所有类型的实例化名。如 Object，Number...
@@ -12,6 +20,14 @@ isType(obj, ["Array", "String"]);
 
 ### getUUID
 
+##### 类型：
+
+```
+(prefix?: string) => string
+```
+
+
+
 - 得到一个 uuid
 - @param prefix 前缀
 - @return String
@@ -21,6 +37,14 @@ getUUID("moon-validate-");
 ```
 
 ### setEventListenerVue2
+
+##### 类型：
+
+```
+(binder: any, vm: any, evtName: string, listener: (...arg: any[]) => void, options: any) => (() => void) | undefined
+```
+
+
 
 - @description 设置 window 或 document 事件监听,同时当所在的 vue 实例销毁时自动移除监听
 - @author 闰月飞鸟
@@ -37,6 +61,14 @@ setEventListenerVue2(window, this, "mousemove", () => {});
 
 ### mergeObject
 
+##### 类型：
+
+```
+(to: object, from: object)=> object
+```
+
+
+
 - @description 对象合并，相同函数合并成一个，原函数先执行,若函数有返回值:若为对象则合并，非对象的以来源函数结果为主
 - @author 闰月飞鸟
 - @param to 原对象
@@ -48,6 +80,14 @@ mergeObject({}, {});
 ```
 
 ### asyncLoadElement
+
+##### 类型：
+
+```
+(elementName: string, attrs: Recordable, appendToElement?: HTMLHeadElement) => Promise<unknown>
+```
+
+
 
 - @description 异步添加 dom 元素
 - @author 闰月飞鸟
@@ -61,6 +101,14 @@ await asyncLoadElement('script',{src;'',id:'xx'});
 ```
 
 ### InstanceValidate
+
+##### 类型： 
+
+```
+(target: Recordable, rules: Schema["rules"], validateCallback: ValidateCallback) => boolean
+```
+
+
 
 - @description 校验目标对象是否符合输入的校验规则
 - @return function 返回回调函数
@@ -81,14 +129,30 @@ const rules = {
     },
   ],
 };
-InstanceValidate()({}, rules, (e) => {
+const validate=InstanceValidate()
+validate({}, rules, (e) => {
   console.log(e);
 });
 ```
 
 ### treeToFlat
 
-- @description 将普通的树形数据，转成扁平化的数据，若无指定层级元素如 id，pId，则自动添加，不改变源数据
+##### 类型： 
+
+```
+ <T = any>({ source, id, pId, children, }: {
+    source: T[];
+    id?: string | undefined;
+    pId?: string | undefined;
+    children?: string | undefined;
+}) => T[]
+```
+
+
+
+- @description 将普通的树形数据，转成扁平化的数据，
+- @description 若无指定层级元素如 id，pId，则自动添加， 
+- @description  不改变源数据
 - @author 闰月飞鸟
 - @param {\*} source
 - @param {\*} id
@@ -101,6 +165,35 @@ treeToFlat({ source: data, id: "id", pId: "pId", children: "children" });
 ```
 
 ### treeDataFactory
+
+##### 类型
+
+```
+ type TreeFactoryItemType<T> = {
+  id: string;
+  pId: string;
+  children?: TreeFactoryItemType<T>[];
+  data: T;
+  track?: string[];
+  trigger?: string[];
+  level?: number;
+  [k: string]: any;
+};
+
+ 
+<T extends Recordable<any>>({ source, id, pId, }: {
+    source: T[];
+    id?: string | undefined;
+    pId?: string | undefined;
+}, customizer?: ((item: TreeFactoryItemType<T>) => void) | undefined) => {
+    treeData: TreeFactoryItemType<T>[];
+    leaves: TreeFactoryItemType<T>[];
+    objById :{
+    		[key: string]: TreeFactoryItemType<T>;
+			};
+    flatData: TreeFactoryItemType<T>[]
+}
+```
 
 - @description 树形数据格式化
 - @param {\*} source
@@ -124,13 +217,23 @@ treeToFlat({ source: data, id: "id", pId: "pId", children: "children" });
 let { treeData } = treeDataFactory({ source: data, id: "id", pId: "pId" });
 ```
 
+
+
 ### arrayRemoveItem
 
-- @description 在不修改当前引用的基础上 ，批量移除元素。数组依据条件函数，
-- @author 闰月飞鸟
-- @param {\*} arr 目标数组
-- @param {\*} fun 移除迭代函数，接受两个参数，当前项 item，以及下标 index。
-- @return Boolean,返回 true 时，代表要移除该项
+##### 类型
+
+```
+<T = any>(arr: T[], remove: (item: T, index: number) => boolean) => void
+```
+
+
+
+- *@description* — 在不修改当前引用的基础上 ，批量移除元素。数组依据条件函数，
+- @author — 闰月飞鸟
+- *@param* `arr` — 目标数组
+- *@param* `remove` — 移除函数，接受两个参数，当前项item，以及下标index。
+- *@return* — Boolean,返回true时，代表要移除该项 
 
 ```javascript
  arrayRemoveItem([],(item,index)=>{
@@ -139,7 +242,17 @@ let { treeData } = treeDataFactory({ source: data, id: "id", pId: "pId" });
 });
 ```
 
+
+
+
+
 ### addUrlParams
+
+类型
+
+```
+(url: string, params?: Recordable, merge?: boolean) => string
+```
 
 - @description 在 url 后面追加指定对象作为新的参数。
 - @author 闰月飞鸟
@@ -148,10 +261,23 @@ let { treeData } = treeDataFactory({ source: data, id: "id", pId: "pId" });
 - @param {merge} 对原有的 url 参数进行覆盖合并，还是保留合并，true 时为覆盖合并，以当前参数为主，false 则为保留合并，以原来的 url 参数为主 。默认为覆盖合并。即有相同参数的以后传的参数值为准
 
 ```javascript
-addUrlParams("http:", { a: "b" });
+addUrlParams("http:", { a: "b" }); ==> "http:?a=b"
 ```
 
+
+
 ### getUrlParams
+
+```
+(url: string, opt?: (qs.IParseOptions<qs.BooleanOptional> & {
+    decoder?: undefined;
+}) | undefined) => {
+    rootUrl: string;
+    urlParams: {};
+}
+```
+
+
 
 - @description 获取 url 中的参数 。
 - @author 闰月飞鸟
@@ -160,5 +286,5 @@ addUrlParams("http:", { a: "b" });
 - @return {rootUrl,urlParams} 返回 rootUrl 以及 urlParams 对象
 
 ```javascript
-getUrlParams("http:");
+getUrlParams("http:?a=b");  ==>{rootUrl:"http:",urlParams:{a:"b"}}
 ```

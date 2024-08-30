@@ -60,7 +60,14 @@ export const addUrlParams = function (
  * @param {opt}  qs.parse第二个参数
  * @return {rootUrl,urlParams} 返回 rootUrl以及urlParams对象
  */
-export const getUrlParams = function (url: string, opt: Recordable = {}) {
+export const getUrlParams = function (
+  url: string,
+  opt:
+    | (qs.IParseOptions<qs.BooleanOptional> & {
+        decoder?: undefined;
+      })
+    | undefined = {}
+) {
   url = url.trim();
   /* 对url中的特殊字&&符做 encodeURIComponent处理，避免qs时出错*/
   url = url.replace(/&&/g, encodeURIComponent("&&"));

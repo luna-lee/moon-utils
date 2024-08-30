@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "pnpm --filter 'moon-utils' run build",
-    "test": "vitest"
+    "build": "pnpm --filter 'moon-utils' run build && npm run copy-md",
+    "test": "vitest",
+    "copy-md": "cp  README.md  packages/core"
   },
   "keywords": [],
   "author": "",

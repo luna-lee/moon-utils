@@ -1,7 +1,9 @@
 import { isType, getUUID } from "./common";
 import { flattenDeep } from "lodash-es"; //+13kb
 /**
- * @description 将普通的树形数据，转成扁平化的数据，若无指定层级元素如id，pId，则自动添加，不改变源数据
+ * @description 将普通的树形数据，转成扁平化的数据，
+ * @description 若无指定层级元素如 id，pId，则自动添加，
+ * @description  不改变源数据
  * @author 闰月飞鸟
  * @param {*} source
  * @param {*} id
@@ -146,15 +148,15 @@ export const treeDataFactory = <T extends Recordable>(
  * @description  在不修改当前引用的基础上 ，批量移除元素。数组依据条件函数，
  * @author 闰月飞鸟
  * @param {*} arr 目标数组
- * @param {*} fun 移除迭代函数，接受两个参数，当前项item，以及下标index。
+ * @param {*} remove 移除函数，接受两个参数，当前项item，以及下标index。
  *   @return Boolean,返回true时，代表要移除该项
  */
 export const arrayRemoveItem = <T = any>(
   arr: T[],
-  fun: (item: T, index: number) => boolean
+  remove: (item: T, index: number) => boolean
 ): void => {
-  if (isType(arr, "Array") && isType(fun, "Function")) {
-    let stay = arr.filter((v, i) => !fun(v, i));
+  if (isType(arr, "Array") && isType(remove, "Function")) {
+    let stay = arr.filter((v, i) => !remove(v, i));
     arr.splice(0, arr.length);
     arr.push(...stay);
   } else throw "arrayRemoveItem 参数类型不正确，arr必须是数组，fun必须是函数";

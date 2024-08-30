@@ -8,11 +8,7 @@ import { nanoid } from "nanoid";
 import { nanoid } from "nanoid/non-secure";
 // #endif
 import { mergeWith } from "lodash-es";
-import Schema, {
-  ValidateError,
-  ValidateFieldsError,
-  Values,
-} from "async-validator";
+import Schema, { ValidateCallback } from "async-validator";
 
 /**
  * @description 类型判断
@@ -173,10 +169,7 @@ export const InstanceValidate = () => {
   return function (
     target: Recordable,
     rules: Schema["rules"],
-    validateCallback: (
-      errors: ValidateError[] | null,
-      fields: Values | ValidateFieldsError
-    ) => boolean
+    validateCallback: ValidateCallback
   ) {
     let flag = true;
     //类型检查
