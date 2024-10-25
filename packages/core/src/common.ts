@@ -153,6 +153,9 @@ export const asyncLoadElement = (
     el.onload = () => {
       resolve(true);
     };
+    el.onerror = () => {
+      resolve(false);
+    };
   });
 };
 /**
