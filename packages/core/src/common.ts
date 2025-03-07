@@ -136,7 +136,7 @@ export function mergeObject(to: object, from: object): object {
  */
 export const asyncLoadElement = (
   elementName: string,
-  attrs: Recordable,
+  attrs: MoonUtils.Recordable,
   appendToElement = document.head
 ) => {
   return new Promise((resolve) => {
@@ -170,7 +170,7 @@ export const InstanceValidate = () => {
   let validateObject_validator: null | Schema = null;
   let validateObject_rules: any = null;
   return function (
-    target: Recordable,
+    target: MoonUtils.Recordable,
     rules: Schema["rules"],
     validateCallback: ValidateCallback
   ) {

@@ -9,7 +9,7 @@ import { isEmpty } from "lodash-es";
  * @param {opt}  qs.stringify第二个参数
  * @return string 返回 序列化后的字符串 ，默认返回结果带上？
  */
-export const qsStringify = function (obj: Recordable, opt: Recordable = {}) {
+export const qsStringify = function (obj: MoonUtils.Recordable, opt: MoonUtils.Recordable = {}) {
   return qs.stringify(obj, {
     // 对所有常规特殊字符进行编码。
     encoder: function (str: string) {
@@ -30,7 +30,7 @@ export const qsStringify = function (obj: Recordable, opt: Recordable = {}) {
  */
 export const addUrlParams = function (
   url: string,
-  params: Recordable = {},
+  params: MoonUtils.Recordable = {},
   merge = true
 ) {
   // params 为一个空对象，直接返回url

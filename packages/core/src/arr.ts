@@ -56,7 +56,7 @@ export const treeToFlat = <T = any>({
  * @param {*} trigger 所有当前节点的子节点id，不包含自身ID
  */
 
-export const treeDataFactory = <T extends Recordable>(
+export const treeDataFactory = <T extends MoonUtils.Recordable>(
   {
     source,
     id = "id",
@@ -66,10 +66,10 @@ export const treeDataFactory = <T extends Recordable>(
     id?: string;
     pId?: string;
   },
-  customizer?: (item: TreeFactoryItemType<T>) => void
+  customizer?: (item: MoonUtils.TreeFactoryItemType<T>) => void
 ) => {
   if (!isType(source, "Array")) throw "treeToFlat  source必须是数组";
-  let formatSource: TreeFactoryItemType<T>[] = source.map((item: T) => {
+  let formatSource: MoonUtils.TreeFactoryItemType<T>[] = source.map((item: T) => {
     return {
       id: item[id],
       pId: item[pId],
@@ -79,7 +79,7 @@ export const treeDataFactory = <T extends Recordable>(
   });
   try {
     let treeData = formatSource.reduce(
-      (arr: TreeFactoryItemType<T>[], item) => {
+      (arr: MoonUtils.TreeFactoryItemType<T>[], item) => {
         // 判断数组项是否符合 树结构类型
         if (!item.hasOwnProperty(id))
           throw `${JSON.stringify(
@@ -108,10 +108,10 @@ export const treeDataFactory = <T extends Recordable>(
       },
       []
     );
-    let leaves: TreeFactoryItemType<T>[] = [];
+    let leaves: MoonUtils.TreeFactoryItemType<T>[] = [];
     // id 为key的对象。将trigger扁平化,获取所有子节点
     let objById = formatSource.reduce(
-      (obj: { [key: string]: TreeFactoryItemType<T> }, item) => {
+      (obj: { [key: string]: MoonUtils.TreeFactoryItemType<T> }, item) => {
         item.trigger = flattenDeep(item.trigger);
         item.track = flattenDeep(item.track).reverse();
         item.level = item.track.length;
