@@ -18,10 +18,10 @@ import Schema, { ValidateCallback } from "async-validator";
  *  */
 export const isType = (obj: any, type: string | string[]): boolean => {
   if (typeof type === "string")
-    return Object.prototype.toString.call(obj) == `[object ${type}]`;
+    return Object.prototype.toString.call(obj).toLowerCase() == `[object ${type}]`.toLowerCase();
   if (Array.isArray(type))
     return type.some(
-      (t) => Object.prototype.toString.call(obj) == `[object ${t}]`
+      (t) => Object.prototype.toString.call(obj).toLowerCase() == `[object ${t}]`.toLowerCase()
     );
   return true;
 };

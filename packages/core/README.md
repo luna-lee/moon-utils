@@ -16,6 +16,9 @@
 ```javascript
 isType(obj, "Array");
 isType(obj, ["Array", "String"]);
+
+isType(obj, "array");
+isType(obj, ["array", "string"]);
 ```
 
 ### getUUID
