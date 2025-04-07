@@ -2,7 +2,7 @@ import { isType, getUUID } from "./common";
 import { flattenDeep } from "lodash-es"; //+13kb
 /**
  * @description 将普通的树形数据，转成扁平化的数据，
- * @description 若无指定层级元素如 id，pId，则自动添加，
+ * @description id,pId,children 为source中对应的字段名。
  * @description  不改变源数据
  * @author 闰月飞鸟
  * @param {*} source
@@ -20,7 +20,7 @@ export const treeToFlat = <T = any>({
   id?: string;
   pId?: string;
   children?: string;
-}): T[] => {
+}): { id: string; data: T; pId: string }[] => {
   if (!isType(source, "Array")) throw "treeToFlat  source必须是数组";
   function getChildren(sourceList: any[], targetList: any[], pIdValue = "") {
     sourceList.forEach((item: any) => {
@@ -30,7 +30,7 @@ export const treeToFlat = <T = any>({
       if (item[children]) getChildren(item[children], targetList, _id);
     });
   }
-  const target: T[] = [];
+  const target: { id: string; data: T; pId: string }[] = [];
   getChildren(source, target);
   return target;
 };

@@ -148,13 +148,13 @@ validate({}, rules, (e) => {
     id?: string | undefined;
     pId?: string | undefined;
     children?: string | undefined;
-}) => T[]
+}) => { id: string; data: T; pId: string }[]
 ```
 
 
 
 - @description 将普通的树形数据，转成扁平化的数据，
-- @description 若无指定层级元素如 id，pId，则自动添加， 
+- @description id,pId,children 为source中对应的字段名。 
 - @description  不改变源数据
 - @author 闰月飞鸟
 - @param {\*} source
