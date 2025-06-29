@@ -80,11 +80,6 @@ export const treeDataFactory = <T extends MoonUtils.Recordable>(
   try {
     let treeData = formatSource.reduce(
       (arr: MoonUtils.TreeFactoryItemType<T>[], item) => {
-        // 判断数组项是否符合 树结构类型
-        if (!item.hasOwnProperty(id))
-          throw `${JSON.stringify(
-            item
-          )}树形结构数据不准确,数据项中没有指定的id:${id}`;
         item.children = item.children || [];
         item.track = item.track || [item.id];
         item.trigger = item.trigger || [];
