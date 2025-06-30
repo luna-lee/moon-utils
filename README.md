@@ -1,3 +1,5 @@
+# moon-utils 统一迁移到 [mynx-utils](https://www.npmjs.com/package/mynx-utils) 上 
+
 ### isType
 
 ##### 类型：

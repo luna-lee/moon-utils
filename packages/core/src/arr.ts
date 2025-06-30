@@ -69,14 +69,16 @@ export const treeDataFactory = <T extends MoonUtils.Recordable>(
   customizer?: (item: MoonUtils.TreeFactoryItemType<T>) => void
 ) => {
   if (!isType(source, "Array")) throw "treeToFlat  source必须是数组";
-  let formatSource: MoonUtils.TreeFactoryItemType<T>[] = source.map((item: T) => {
-    return {
-      id: item[id],
-      pId: item[pId],
-      data: item,
-      children: [],
-    };
-  });
+  let formatSource: MoonUtils.TreeFactoryItemType<T>[] = source.map(
+    (item: T) => {
+      return {
+        id: item[id],
+        pId: item[pId],
+        data: item,
+        children: [],
+      };
+    }
+  );
   try {
     let treeData = formatSource.reduce(
       (arr: MoonUtils.TreeFactoryItemType<T>[], item) => {
@@ -117,7 +119,12 @@ export const treeDataFactory = <T extends MoonUtils.Recordable>(
           delete item.children;
         }
         // 自定义函数
-        customizer && customizer(item);
+        if (customizer) {
+          // 浅拷贝一份，确保主要的数据及其主数据结构不会被修改
+          const shallowCopy = { ...item };
+          customizer(item);
+          Object.assign(item, shallowCopy);
+        }
         return obj;
       },
       {}
