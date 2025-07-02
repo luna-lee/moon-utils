@@ -56,7 +56,7 @@ export const treeToFlat = <T = any>({
  * @param {*} trigger 所有当前节点的子节点id，不包含自身ID
  */
 
-export const treeDataFactory = <T extends MoonUtils.Recordable>(
+export const treeDataFactory = <T extends MynxUtils.Recordable>(
   {
     source,
     id = "id",
@@ -66,22 +66,29 @@ export const treeDataFactory = <T extends MoonUtils.Recordable>(
     id?: string;
     pId?: string;
   },
-  customizer?: (item: MoonUtils.TreeFactoryItemType<T>) => void
+  customizer?: (item: MynxUtils.TreeFactoryItemType<T>) => void
 ) => {
   if (!isType(source, "Array")) throw "treeToFlat  source必须是数组";
-  let formatSource: MoonUtils.TreeFactoryItemType<T>[] = source.map(
+  let formatSource: MynxUtils.TreeFactoryItemType<T>[] = source.map(
     (item: T) => {
-      return {
+      const _item = {
         id: item[id],
         pId: item[pId],
         data: item,
         children: [],
       };
+      if (customizer) {
+        customizer(_item);
+        // 避免被修改
+        _item.id = item[id];
+        _item.pId = item[pId];
+      }
+      return _item;
     }
   );
   try {
     let treeData = formatSource.reduce(
-      (arr: MoonUtils.TreeFactoryItemType<T>[], item) => {
+      (arr: MynxUtils.TreeFactoryItemType<T>[], item) => {
         item.children = item.children || [];
         item.track = item.track || [item.id];
         item.trigger = item.trigger || [];
@@ -89,13 +96,11 @@ export const treeDataFactory = <T extends MoonUtils.Recordable>(
         if (!parent) arr.push(item);
         else {
           // track:所有父id，包括自己
-          parent.track = parent.track || [parent.id];
-          //   @ts-ignore
+          parent.track = parent.track ?? [parent.id];
           item.track.push(parent.track);
           // trigger:所有子id
           parent.trigger = parent.trigger || [];
           parent.trigger.push(item.id);
-          //   @ts-ignore
           parent.trigger.push(item.trigger);
           parent.children = parent.children
             ? [...parent.children, item]
@@ -105,25 +110,26 @@ export const treeDataFactory = <T extends MoonUtils.Recordable>(
       },
       []
     );
-    let leaves: MoonUtils.TreeFactoryItemType<T>[] = [];
+    let leaves: MynxUtils.TreeFactoryItemType<T>[] = [];
     // id 为key的对象。将trigger扁平化,获取所有子节点
     let objById = formatSource.reduce(
-      (obj: { [key: string]: MoonUtils.TreeFactoryItemType<T> }, item) => {
-        item.trigger = flattenDeep(item.trigger);
-        item.track = flattenDeep(item.track).reverse();
-        item.level = item.track.length;
+      (obj: { [key: string]: MynxUtils.TreeFactoryItemType<T> }, item) => {
+        if (item.trigger) {
+          const triggerFlatten: string[] = flattenDeep(item.trigger);
+          item.trigger.length = 0;
+          item.trigger.push(...triggerFlatten);
+        }
+        if (item.track) {
+          const trackFlatten: string[] = flattenDeep(item.track);
+          item.track.length = 0;
+          item.track.push(...trackFlatten);
+          item.level = item.track.length;
+        }
         obj[item.id] = item;
         // 叶子节点移除children
         if (!item.children?.length) {
           leaves.push(item);
           delete item.children;
-        }
-        // 自定义函数
-        if (customizer) {
-          // 浅拷贝一份，确保主要的数据及其主数据结构不会被修改
-          const shallowCopy = { ...item };
-          customizer(item);
-          Object.assign(item, shallowCopy);
         }
         return obj;
       },

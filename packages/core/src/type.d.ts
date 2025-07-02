@@ -1,7 +1,8 @@
 declare global {
-  namespace MoonUtils {
+  namespace MynxUtils {
     // 通用Record类型
     type Recordable<T = any> = Record<string, T>;
+    type NestedStringArray = string | NestedStringArray[];
 
     // 树形结构项类型
     type TreeFactoryItemType<T> = {
@@ -9,8 +10,8 @@ declare global {
       pId: string;
       children?: TreeFactoryItemType<T>[];
       data: T;
-      track?: string[];
-      trigger?: string[];
+      track?: NestedStringArray[];
+      trigger?: NestedStringArray[];
       level?: number;
       [k: string]: any;
     };
