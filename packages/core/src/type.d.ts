@@ -1,5 +1,5 @@
 declare global {
-  namespace MynxUtils {
+  namespace MoonUtils {
     // 通用Record类型
     type Recordable<T = any> = Record<string, T>;
     type NestedStringArray = string | NestedStringArray[];
